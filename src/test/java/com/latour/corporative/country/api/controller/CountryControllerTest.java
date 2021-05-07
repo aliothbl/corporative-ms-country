@@ -8,11 +8,13 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.client.RestTemplate;
 
+import static com.latour.corporative.country.api.ApiValues.PatchMediaType.APPLICATION_MERGE_PATCH_JSON;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -51,14 +53,13 @@ class CountryControllerTest {
 	@Order(1)
 	void createCountryTest() throws Exception {
 		
-		ResultActions result = mockMvc.perform(post("/api/v1/corporative/countries")
-				                                       .contentType(APPLICATION_JSON)
-				                                       .content("{\n" +
-				                                                "    \"code\": \"+1\",\n" +
-				                                                "    \"simpleName\": \"United States\",\n" +
-				                                                "    \"fullName\": \"United States of America\",\n" +
-				                                                "    \"flagImageUrl\": \"https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg\"\n" +
-				                                                "}"))
+		ResultActions result = mockMvc.perform(post("/api/v1/corporative/countries").contentType(APPLICATION_JSON)
+		                                                                            .content("{\n" +
+		                                                                                     "    \"code\": \"+1\",\n" +
+		                                                                                     "    \"simpleName\": \"United States\",\n" +
+		                                                                                     "    \"fullName\": \"United States of America\",\n" +
+		                                                                                     "    \"flagImageUrl\": \"https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg\"\n" +
+		                                                                                     "}"))
 		                              .andExpect(status().isOk())
 		                              .andExpect(jsonPath("$.data.uuid", notNullValue()))
 		                              .andExpect(jsonPath("$.data.code", is("+1")))
@@ -68,9 +69,9 @@ class CountryControllerTest {
 		                                                  is("https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg")));
 		
 		String contentAsString = result.andReturn().getResponse().getContentAsString();
-		WrapperResponse<CountryResponse> response = objectMapper.readValue(
-				contentAsString, new TypeReference<WrapperResponse<CountryResponse>>() {
-				});
+		WrapperResponse<CountryResponse> response = objectMapper.readValue(contentAsString,
+		                                                                   new TypeReference<WrapperResponse<CountryResponse>>() {
+		                                                                   });
 		
 		this.uuid = response.getData().getUuid();
 		mockServer.verify();
@@ -107,10 +108,8 @@ class CountryControllerTest {
 	@Test
 	@Order(3)
 	void getCountryByUuidTest() throws Exception {
-		
 		mockMvc.perform(get("/api/v1/corporative/countries/" + this.uuid).contentType(APPLICATION_JSON))
 		       .andExpect(status().isOk())
-		
 		       .andExpect(jsonPath("$.data.uuid", is(uuid)))
 		       .andExpect(jsonPath("$.data.code", is("+1")))
 		       .andExpect(jsonPath("$.data.simpleName", is("United States")))
@@ -124,9 +123,28 @@ class CountryControllerTest {
 	
 	@Test
 	@Order(4)
+	void patchCountryByUuidTest() throws Exception {
+		
+		mockMvc.perform(patch("/api/v1/corporative/countries/" + this.uuid).contentType(
+				MediaType.valueOf(APPLICATION_MERGE_PATCH_JSON)).content("{ \"flagImageUrl\": \"https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4ec7ea92-af48.svg\" }"))
+		       .andExpect(status().isOk())
+		       .andExpect(jsonPath("$.data.uuid", is(uuid)))
+		       .andExpect(jsonPath("$.data.code", is("+1")))
+		       .andExpect(jsonPath("$.data.simpleName", is("United States")))
+		       .andExpect(jsonPath("$.data.fullName", is("United States of America")))
+		       .andExpect(jsonPath("$.data.flagImageUrl",
+		                           is("https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4ec7ea92-af48.svg")));
+		
+		mockServer.verify();
+		
+	}
+	
+	@Test
+	@Order(5)
 	void getCountryEntityNotFoundTest() throws Exception {
 		
-		mockMvc.perform(get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb").contentType(APPLICATION_JSON))
+		mockMvc.perform(get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb").contentType(APPLICATION_JSON)
+		                                                                       .content("{ \"number\": \"100\" }"))
 		       .andExpect(status().isNotFound())
 		       .andExpect(jsonPath("$.status", is(404)))
 		       .andExpect(jsonPath("$.timestamp", notNullValue()))
@@ -138,11 +156,11 @@ class CountryControllerTest {
 	}
 	
 	@Test
-	@Order(5)
+	@Order(6)
 	void deleteCountryEntityTest() throws Exception {
 		
-		mockMvc.perform(delete("/api/v1/corporative/countries/" + this.uuid).contentType(APPLICATION_JSON))
-		       .andExpect(status().isNoContent());
+		mockMvc.perform(delete("/api/v1/corporative/countries/" + this.uuid).contentType(APPLICATION_JSON)).andExpect(
+				status().isNoContent());
 		
 		mockServer.verify();
 		
