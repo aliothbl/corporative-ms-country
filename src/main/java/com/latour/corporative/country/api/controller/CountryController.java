@@ -37,10 +37,10 @@ public class CountryController {
 	}
 	
 	@ApiOperation(value = "Create a country", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Country created", response = CountryResponse.class) })
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Country created", response = CountryResponse.class) })
 	@PostMapping
 	public ResponseEntity<WrapperResponse<CountryResponse>> createCountry(final @RequestBody CountryRequest request) {
-		return ResponseEntity.ok(service.create(request));
+		return new ResponseEntity(service.create(request), HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Find a country by uuid", produces = APPLICATION_JSON_VALUE)
@@ -53,10 +53,10 @@ public class CountryController {
 		return ResponseEntity.ok(service.getBy(uuid));
 	}
 	
-	@ApiOperation(value = "Merge a country data",
+	@ApiOperation(value = "Merge a Country data",
 	              consumes = APPLICATION_MERGE_PATCH_JSON,
 	              produces = APPLICATION_JSON_VALUE)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Country found", response = CountryResponse.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Country merged", response = CountryResponse.class),
 	                        @ApiResponse(code = 404,
 	                                     message = "Country not found",
 	                                     response = EntityNotFoundException.class) })
