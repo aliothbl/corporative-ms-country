@@ -16,5 +16,5 @@ public interface CountryMapper {
 	Country from(CountryRequest request);
 	
 	CountryResponse from(Country request);
-
+	
 }
