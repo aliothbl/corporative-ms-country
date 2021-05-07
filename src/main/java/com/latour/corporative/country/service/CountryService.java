@@ -10,11 +10,13 @@ import com.latour.corporative.country.exception.EntityNotFoundException;
 import com.latour.corporative.country.mapper.CountryMapper;
 import com.latour.corporative.country.model.Country;
 import com.latour.corporative.country.repository.CountryRepository;
+import com.latour.corporative.country.util.ObjectMapperUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.json.JsonMergePatch;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,14 +49,21 @@ public class CountryService {
 		return WrapperResponse.of(mapper.from(getCountry(uuid)));
 	}
 	
+	public WrapperResponse<CountryResponse> merge(final String uuid, final JsonMergePatch jsonMergePatch) {
+		Country country = ObjectMapperUtil.mergePatch(jsonMergePatch, getCountry(uuid), Country.class);
+		/* Keeping the same uuid in the document */
+		country.setUuid(uuid);
+		repository.save(country);
+		return WrapperResponse.of(mapper.from(repository.save(country)));
+	}
+	
 	public void deleteBy(final String uuid) {
 		repository.delete(getCountry(uuid));
 	}
 	
 	private Country getCountry(final String uuid) {
-		return repository.findBy(uuid)
-		                 .orElseThrow(() -> new EntityNotFoundException(
-				                 "Entity not found for identifier '" + uuid + "'"));
+		return repository.findBy(uuid).orElseThrow(
+				() -> new EntityNotFoundException("Entity not found for identifier '" + uuid + "'"));
 	}
 	
 	public WrapperResponse<CountryResponse> create(final CountryRequest request) {

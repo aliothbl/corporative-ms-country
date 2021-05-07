@@ -21,6 +21,8 @@
 		<java.version>1.8</java.version>
 		<mapstruct.version>1.4.2.Final</mapstruct.version>
 		<artifact.short.name>ms-country</artifact.short.name>
+		<jackson.version>2.12.3</jackson.version>
+		<johnzon.version>1.2.11</johnzon.version>
 	</properties>
 
 	<dependencies>
@@ -59,6 +61,19 @@
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>${mapstruct.version}</version>
+		</dependency>
+
+		<!--merge-patch+json-->
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr353</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.johnzon</groupId>
+			<artifactId>johnzon-core</artifactId>
+			<version>${johnzon.version}</version>
 		</dependency>
 
 		<dependency>
