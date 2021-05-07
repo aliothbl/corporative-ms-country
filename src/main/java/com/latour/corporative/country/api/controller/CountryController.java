@@ -40,7 +40,7 @@ public class CountryController {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Country created", response = CountryResponse.class) })
 	@PostMapping
 	public ResponseEntity<WrapperResponse<CountryResponse>> createCountry(final @RequestBody CountryRequest request) {
-		return new ResponseEntity(service.create(request), HttpStatus.CREATED);
+		return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Find a country by uuid", produces = APPLICATION_JSON_VALUE)
