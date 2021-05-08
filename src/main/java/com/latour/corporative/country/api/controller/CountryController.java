@@ -67,6 +67,12 @@ public class CountryController {
 		return ResponseEntity.ok(service.merge(uuid, jsonMergePatch));
 	}
 	
+	@PutMapping("/{uuid}")
+	public ResponseEntity<WrapperResponse<CountryResponse>> updateCountry(final @PathVariable String uuid,
+	                                                                      final @RequestBody CountryRequest request) {
+		return ResponseEntity.ok(service.update(uuid, request));
+	}
+	
 	@ApiOperation(value = "List all countries", produces = APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200,
 	                                     message = "Countries listed",
