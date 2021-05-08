@@ -7,7 +7,8 @@ package com.latour.corporative.country.api;
 
 public final class ApiValues {
 	
-	private ApiValues(){}
+	private ApiValues() {
+	}
 	
 	public static class PatchMediaType {
 		

@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.client.RestTemplate;
 import util.CapturingMatcher;
 
@@ -48,21 +47,17 @@ class CountryControllerTest {
 	void createCountryTest() throws Exception {
 		
 		final CapturingMatcher<String> capturingMatcher = new CapturingMatcher();
-		
-		ResultActions result = mockMvc.perform(post("/api/v1/corporative/countries").contentType(APPLICATION_JSON)
-		                                                                            .content("{\n" +
-		                                                                                     "    \"code\": \"+1\",\n" +
-		                                                                                     "    \"simpleName\": \"United States\",\n" +
-		                                                                                     "    \"fullName\": \"United States of America\",\n" +
-		                                                                                     "    \"flagImageUrl\": \"https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg\"\n" +
-		                                                                                     "}"))
-		                              .andExpect(status().isCreated())
-		                              .andExpect(jsonPath("$.data.uuid", is(capturingMatcher)))
-		                              .andExpect(jsonPath("$.data.code", is("+1")))
-		                              .andExpect(jsonPath("$.data.simpleName", is("United States")))
-		                              .andExpect(jsonPath("$.data.fullName", is("United States of America")))
-		                              .andExpect(jsonPath("$.data.flagImageUrl",
-		                                                  is("https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg")));
+		mockMvc.perform(post("/api/v1/corporative/countries").contentType(APPLICATION_JSON)
+		                                                     .content("{\n" +
+		                                                              "    \"code\": \"+1\",\n" +
+		                                                              "    \"simpleName\": \"United States\",\n" +
+		                                                              "    \"fullName\": \"United States of America\",\n" +
+		                                                              "    \"flagImageUrl\": \"https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg\"\n" +
+		                                                              "}")).andExpect(status().isCreated()).andExpect(
+				jsonPath("$.data.uuid", is(capturingMatcher))).andExpect(jsonPath("$.data.code", is("+1"))).andExpect(
+				jsonPath("$.data.simpleName", is("United States"))).andExpect(
+				jsonPath("$.data.fullName", is("United States of America"))).andExpect(jsonPath("$.data.flagImageUrl",
+		                                                                                        is("https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg")));
 		
 		UUID.set(capturingMatcher.getLastValue());
 		mockServer.verify();
@@ -134,6 +129,29 @@ class CountryControllerTest {
 	
 	@Test
 	@Order(5)
+	void putCountryByUuidTest() throws Exception {
+		
+		mockMvc.perform(put("/api/v1/corporative/countries/" + this.UUID.get()).contentType(APPLICATION_JSON)
+		                                                                       .content("{ " +
+		                                                                                "\"code\": \"+112\"," +
+		                                                                                "\"simpleName\": \"Thirteen Colonies\"," +
+		                                                                                "\"fullName\": \"Thirteen British Colonies\"," +
+		                                                                                "\"flagImageUrl\": \"https://s3.amazonaws.com/media.latourtec.com/img/tc-flag-4x2.svg\" " +
+		                                                                                "}"))
+		       .andExpect(status().isOk())
+		       .andExpect(jsonPath("$.data.uuid", is(UUID.get())))
+		       .andExpect(jsonPath("$.data.code", is("+112")))
+		       .andExpect(jsonPath("$.data.simpleName", is("Thirteen Colonies")))
+		       .andExpect(jsonPath("$.data.fullName", is("Thirteen British Colonies")))
+		       .andExpect(jsonPath("$.data.flagImageUrl",
+		                           is("https://s3.amazonaws.com/media.latourtec.com/img/tc-flag-4x2.svg")));
+		
+		mockServer.verify();
+		
+	}
+	
+	@Test
+	@Order(6)
 	void getCountryEntityNotFoundTest() throws Exception {
 		
 		mockMvc.perform(get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb").contentType(APPLICATION_JSON))

@@ -57,6 +57,12 @@ public class CountryService {
 		return WrapperResponse.of(mapper.from(repository.save(country)));
 	}
 	
+	public WrapperResponse<CountryResponse> update(final String uuid, final CountryRequest request) {
+		final Country document = mapper.from(request);
+		document.setUuid(uuid);
+		return WrapperResponse.of(mapper.from(repository.save(document)));
+	}
+	
 	public void deleteBy(final String uuid) {
 		repository.delete(getCountry(uuid));
 	}
