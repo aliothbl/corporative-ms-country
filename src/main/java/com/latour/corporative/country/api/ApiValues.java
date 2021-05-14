@@ -10,6 +10,17 @@ public final class ApiValues {
 	private ApiValues() {
 	}
 	
+	public static class Params {
+		
+		private Params() {
+		}
+		
+		public static final String LOCALE = "locale";
+		
+		public static final String[] ALLOWED_LOCALES = { "en-US", "pt-BR", "es-ES" };
+		
+	}
+	
 	public static class PatchMediaType {
 		
 		private PatchMediaType() {
