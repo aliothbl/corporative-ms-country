@@ -1,5 +1,7 @@
 package com.latour.corporative.country.api.controller;
 
+import com.latour.corporative.country.exception.MessageType;
+import com.latour.corporative.country.util.MessagesUtil;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -9,6 +11,8 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 import util.CapturingMatcher;
+
+import java.util.Locale;
 
 import static com.latour.corporative.country.api.ApiValues.PatchMediaType.APPLICATION_MERGE_PATCH_JSON;
 import static org.hamcrest.Matchers.*;
@@ -152,21 +156,39 @@ class CountryControllerTest {
 	
 	@Test
 	@Order(6)
-	void getCountryEntityNotFoundTest() throws Exception {
+	void getCountryEntityNotFoundEnUSTest() throws Exception {
 		
-		mockMvc.perform(get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb").contentType(APPLICATION_JSON))
+		mockMvc.perform(
+				get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb?locale=en-us").contentType(APPLICATION_JSON))
 		       .andExpect(status().isNotFound())
 		       .andExpect(jsonPath("$.status", is(404)))
 		       .andExpect(jsonPath("$.timestamp", notNullValue()))
-		       .andExpect(jsonPath("$.error", is("Not Found")))
+		       .andExpect(jsonPath("$.cause", is("Not Found")))
+		       .andExpect(jsonPath("$.message",
+		                           is("Entity not found for identifier 3ff967f6-a9fe-11eb")))
 		       .andExpect(jsonPath("$.path", is("/api/v1/corporative/countries/3ff967f6-a9fe-11eb")));
 		
 		mockServer.verify();
-		
 	}
 	
 	@Test
-	@Order(6)
+	@Order(7)
+	void getCountryEntityNotFoundEsESTest() throws Exception {
+		
+		mockMvc.perform(
+				get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb?locale=es-ES").contentType(APPLICATION_JSON))
+		       .andExpect(status().isNotFound())
+		       .andExpect(jsonPath("$.status", is(404)))
+		       .andExpect(jsonPath("$.timestamp", notNullValue()))
+		       .andExpect(jsonPath("$.cause", is("Not Found")))
+		       .andExpect(jsonPath("$.message", is("Entidad no encontrada para el identificador 3ff967f6-a9fe-11eb")))
+		       .andExpect(jsonPath("$.path", is("/api/v1/corporative/countries/3ff967f6-a9fe-11eb")));
+		
+		mockServer.verify();
+	}
+	
+	@Test
+	@Order(8)
 	void deleteCountryEntityTest() throws Exception {
 		
 		mockMvc.perform(delete("/api/v1/corporative/countries/" + this.UUID.get()).contentType(APPLICATION_JSON))

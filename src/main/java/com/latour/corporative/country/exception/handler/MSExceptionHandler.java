@@ -4,6 +4,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,15 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
-public class ExceptionHandler {
+public class MSExceptionHandler {
 	
 	private final HttpServletRequest request;
 	
-	private ExceptionHandler(HttpServletRequest request) {
+	private MSExceptionHandler(HttpServletRequest request) {
 		this.request = request;
 	}
 	
-	@org.springframework.web.bind.annotation.ExceptionHandler({ HttpResponseException.class })
+	@ExceptionHandler({ HttpResponseException.class })
 	public ResponseEntity<Object> handleEmptyResultsException(HttpResponseException ex) {
 		return new ResponseEntity<>(new ApiError(ex.getHttpStatus(), ex.getMessage(), this.request.getRequestURI()),
 		                            ex.getHttpStatus());

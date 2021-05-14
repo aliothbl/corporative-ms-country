@@ -7,6 +7,7 @@ import com.latour.corporative.country.api.dto.filter.PageFilter;
 import com.latour.corporative.country.api.dto.request.CountryRequest;
 import com.latour.corporative.country.api.dto.response.CountryResponse;
 import com.latour.corporative.country.exception.EntityNotFoundException;
+import com.latour.corporative.country.exception.MessageType;
 import com.latour.corporative.country.mapper.CountryMapper;
 import com.latour.corporative.country.model.Country;
 import com.latour.corporative.country.repository.CountryRepository;
@@ -69,7 +70,7 @@ public class CountryService {
 	
 	private Country getCountry(final String uuid) {
 		return repository.findBy(uuid).orElseThrow(
-				() -> new EntityNotFoundException("Entity not found for identifier '" + uuid + "'"));
+				() -> new EntityNotFoundException(MessageType.ENTITY_NOT_FOUND, uuid));
 	}
 	
 	public WrapperResponse<CountryResponse> create(final CountryRequest request) {
