@@ -18,13 +18,13 @@ public class ApiError implements Serializable {
 	private Integer status;
 	private Date timestamp;
 	private String message;
-	private String error;
+	private String cause;
 	private String path;
 	
 	public ApiError(HttpStatus httpStatus, String message, String path) {
 		this.httpStatus = httpStatus;
 		this.status = httpStatus.value();
-		this.error = httpStatus.getReasonPhrase();
+		this.cause = httpStatus.getReasonPhrase();
 		this.message = message;
 		this.timestamp = new Date();
 		this.path = path;
@@ -46,8 +46,8 @@ public class ApiError implements Serializable {
 		return message;
 	}
 	
-	public String getError() {
-		return error;
+	public String getCause() {
+		return cause;
 	}
 	
 	public String getPath() {

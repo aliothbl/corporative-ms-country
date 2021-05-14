@@ -7,6 +7,11 @@ import org.springframework.core.Ordered;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 /**
  * @author Alioth Latour
@@ -14,7 +19,7 @@ import org.springframework.web.filter.CorsFilter;
  */
 
 @Configuration
-public class WebMvcConfiguration {
+public class WebMvcConfiguration implements WebMvcConfigurer {
 	
 	@Bean
 	public FilterRegistrationBean<CorsFilter> processCorsFilter() {
@@ -29,6 +34,23 @@ public class WebMvcConfiguration {
 		final FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean(new CorsFilter(source));
 		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
 		return bean;
+	}
+	
+	@Bean
+	public LocaleResolver localeResolver() {
+		return new CookieLocaleResolver();
+	}
+	
+	@Bean
+	public LocaleChangeInterceptor localeInterceptor() {
+		LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
+		localeInterceptor.setParamName("locale");
+		return localeInterceptor;
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(localeInterceptor());
 	}
 	
 }
