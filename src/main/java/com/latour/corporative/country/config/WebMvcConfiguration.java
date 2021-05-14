@@ -10,9 +10,8 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-
-import java.util.Locale;
 
 /**
  * @author Alioth Latour
@@ -39,9 +38,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	
 	@Bean
 	public LocaleResolver localeResolver() {
-		MSLocaleResolver localeResolver = new MSLocaleResolver();
-		localeResolver.setDefaultLocale(Locale.US);
-		return localeResolver;
+		return new CookieLocaleResolver();
 	}
 	
 	@Bean

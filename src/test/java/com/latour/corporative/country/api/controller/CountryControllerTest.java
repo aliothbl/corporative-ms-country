@@ -189,6 +189,22 @@ class CountryControllerTest {
 	
 	@Test
 	@Order(8)
+	void getCountryEntityNotFoundCkCKTest() throws Exception {
+		
+		mockMvc.perform(
+				get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb?locale=ck-CK").contentType(APPLICATION_JSON))
+		       .andExpect(status().isNotFound())
+		       .andExpect(jsonPath("$.status", is(404)))
+		       .andExpect(jsonPath("$.timestamp", notNullValue()))
+		       .andExpect(jsonPath("$.cause", is("Not Found")))
+		       .andExpect(jsonPath("$.message", is("Entity not found for identifier 3ff967f6-a9fe-11eb")))
+		       .andExpect(jsonPath("$.path", is("/api/v1/corporative/countries/3ff967f6-a9fe-11eb")));
+		
+		mockServer.verify();
+	}
+	
+	@Test
+	@Order(9)
 	void deleteCountryEntityTest() throws Exception {
 		
 		mockMvc.perform(delete("/api/v1/corporative/countries/" + this.UUID.get()).contentType(APPLICATION_JSON))

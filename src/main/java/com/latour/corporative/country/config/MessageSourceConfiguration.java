@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
+import java.util.Locale;
+
 /**
  * @author Alioth Latour
  * @datetime 5/14/2021 4:31 PM
@@ -18,6 +20,7 @@ public class MessageSourceConfiguration {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:i18n/messages");
 		messageSource.setDefaultEncoding("UTF-8");
+		messageSource.setDefaultLocale(Locale.US);
 		return messageSource;
 	}
 	
