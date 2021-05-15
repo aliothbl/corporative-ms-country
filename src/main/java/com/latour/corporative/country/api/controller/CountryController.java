@@ -26,7 +26,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/api/v1/corporative/countries")
-@Api(tags = { "Country" })
+@Api(tags = { "Corporative Country" })
 public class CountryController {
 	
 	private final CountryService service;
@@ -35,18 +35,24 @@ public class CountryController {
 		this.service = service;
 	}
 	
+	@ApiImplicitParam(name = "Accept-Language",
+	                  value = "en-US",
+	                  paramType = "header",
+	                  dataTypeClass = String.class,
+	                  example = "en-US")
 	@ApiOperation(value = "Create a country", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Country created", response = CountryResponse.class) })
 	@PostMapping
-	public ResponseEntity<WrapperResponse<CountryResponse>> createCountry(final @RequestBody CountryRequest request) {
+	public ResponseEntity<WrapperResponse<CountryResponse>> createCountry(final @RequestBody CountryRequest request,
+	                                                                      @ApiIgnore Locale locale) {
 		return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
 	}
 	
-	@ApiImplicitParam(name = "locale",
+	@ApiImplicitParam(name = "Accept-Language",
 	                  value = "en-US",
-	                  paramType = "query",
+	                  paramType = "header",
 	                  dataTypeClass = String.class,
-	                  example = "es-ES")
+	                  example = "en-US")
 	@ApiOperation(value = "Find a country by uuid", produces = APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Country found", response = CountryResponse.class),
 	                        @ApiResponse(code = 404,
@@ -58,6 +64,11 @@ public class CountryController {
 		return ResponseEntity.ok(service.getBy(uuid));
 	}
 	
+	@ApiImplicitParam(name = "Accept-Language",
+	                  value = "en-US",
+	                  paramType = "header",
+	                  dataTypeClass = String.class,
+	                  example = "en-US")
 	@ApiOperation(value = "Merge a Country data",
 	              consumes = APPLICATION_MERGE_PATCH_JSON,
 	              produces = APPLICATION_JSON_VALUE)
@@ -67,26 +78,43 @@ public class CountryController {
 	                                     response = EntityNotFoundException.class) })
 	@PatchMapping("/{uuid}")
 	public ResponseEntity<WrapperResponse<CountryResponse>> mergeCountry(final @PathVariable String uuid,
-	                                                                     final @RequestBody
-			                                                                     JsonMergePatch jsonMergePatch) {
+	                                                                     final @RequestBody JsonMergePatch jsonMergePatch,
+	                                                                     @ApiIgnore Locale locale) {
 		return ResponseEntity.ok(service.merge(uuid, jsonMergePatch));
 	}
 	
+	@ApiImplicitParam(name = "Accept-Language",
+	                  value = "en-US",
+	                  paramType = "header",
+	                  dataTypeClass = String.class,
+	                  example = "en-US")
 	@PutMapping("/{uuid}")
 	public ResponseEntity<WrapperResponse<CountryResponse>> updateCountry(final @PathVariable String uuid,
-	                                                                      final @RequestBody CountryRequest request) {
+	                                                                      final @RequestBody CountryRequest request,
+	                                                                      @ApiIgnore Locale locale) {
 		return ResponseEntity.ok(service.update(uuid, request));
 	}
 	
+	@ApiImplicitParam(name = "Accept-Language",
+	                  value = "en-US",
+	                  paramType = "header",
+	                  dataTypeClass = String.class,
+	                  example = "en-US")
 	@ApiOperation(value = "List all countries", produces = APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200,
 	                                     message = "Countries listed",
 	                                     response = CountryResponse[].class) })
 	@GetMapping()
-	public ResponseEntity<WrapperListResponse<CountryResponse>> listCountries(final PageFilter filter) {
+	public ResponseEntity<WrapperListResponse<CountryResponse>> listCountries(final PageFilter filter,
+	                                                                          @ApiIgnore Locale locale) {
 		return ResponseEntity.ok(service.listAll(filter));
 	}
 	
+	@ApiImplicitParam(name = "Accept-Language",
+	                  value = "en-US",
+	                  paramType = "header",
+	                  dataTypeClass = String.class,
+	                  example = "en-US")
 	@ApiOperation(value = "Delete a country by uuid", produces = APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Country deleted"),
 	                        @ApiResponse(code = 404,
@@ -94,7 +122,8 @@ public class CountryController {
 	                                     response = EntityNotFoundException.class) })
 	@DeleteMapping("/{uuid}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteCountry(final @PathVariable String uuid) {
+	public void deleteCountry(final @PathVariable String uuid,
+	                          @ApiIgnore Locale locale) {
 		service.deleteBy(uuid);
 	}
 	
