@@ -1,7 +1,5 @@
 package com.latour.corporative.country.api.controller;
 
-import com.latour.corporative.country.exception.MessageType;
-import com.latour.corporative.country.util.MessagesUtil;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,14 +10,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 import util.CapturingMatcher;
 
-import java.util.Locale;
-
 import static com.latour.corporative.country.api.ApiValues.PatchMediaType.APPLICATION_MERGE_PATCH_JSON;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author Alioth Latour
@@ -156,16 +151,14 @@ class CountryControllerTest {
 	
 	@Test
 	@Order(6)
-	void getCountryEntityNotFoundEnUSTest() throws Exception {
+	void getCountryEntityNotFoundDefaultLocaleTest() throws Exception {
 		
-		mockMvc.perform(
-				get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb?locale=en-us").contentType(APPLICATION_JSON))
+		mockMvc.perform(get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb").contentType(APPLICATION_JSON))
 		       .andExpect(status().isNotFound())
 		       .andExpect(jsonPath("$.status", is(404)))
 		       .andExpect(jsonPath("$.timestamp", notNullValue()))
 		       .andExpect(jsonPath("$.cause", is("Not Found")))
-		       .andExpect(jsonPath("$.message",
-		                           is("Entity not found for identifier 3ff967f6-a9fe-11eb")))
+		       .andExpect(jsonPath("$.message", is("Entity not found for identifier 3ff967f6-a9fe-11eb")))
 		       .andExpect(jsonPath("$.path", is("/api/v1/corporative/countries/3ff967f6-a9fe-11eb")));
 		
 		mockServer.verify();
@@ -173,11 +166,14 @@ class CountryControllerTest {
 	
 	@Test
 	@Order(7)
-	void getCountryEntityNotFoundEsESTest() throws Exception {
+	void getCountryEntityNotFoundEsESLocaleTest() throws Exception {
 		
-		mockMvc.perform(
-				get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb?locale=es-ES").contentType(APPLICATION_JSON))
+		mockMvc.perform(get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb")
+				                .header("Accept-Language", "es-ES")
+		                        .contentType(APPLICATION_JSON))
 		       .andExpect(status().isNotFound())
+		       .andExpect(header().string("Accept-Language", "en-US, pt-BR, es-ES"))
+		       .andExpect(header().string("Content-Language", "es-ES"))
 		       .andExpect(jsonPath("$.status", is(404)))
 		       .andExpect(jsonPath("$.timestamp", notNullValue()))
 		       .andExpect(jsonPath("$.cause", is("Not Found")))
@@ -189,11 +185,14 @@ class CountryControllerTest {
 	
 	@Test
 	@Order(8)
-	void getCountryEntityNotFoundCkCKTest() throws Exception {
+	void getCountryEntityNotFoundCkCKLocaleTest() throws Exception {
 		
-		mockMvc.perform(
-				get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb?locale=ck-CK").contentType(APPLICATION_JSON))
+		mockMvc.perform(get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb")
+				                .header("Accept-Language", "ck-CK")
+		                        .contentType(APPLICATION_JSON))
 		       .andExpect(status().isNotFound())
+		       .andExpect(header().string("Accept-Language", "en-US, pt-BR, es-ES"))
+		       .andExpect(header().string("Content-Language", "en-US"))
 		       .andExpect(jsonPath("$.status", is(404)))
 		       .andExpect(jsonPath("$.timestamp", notNullValue()))
 		       .andExpect(jsonPath("$.cause", is("Not Found")))
