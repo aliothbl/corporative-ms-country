@@ -7,6 +7,8 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 
 import java.util.Locale;
 
+import static com.latour.corporative.country.api.ApiValues.Params.DEFAULT_LOCALE;
+
 /**
  * @author Alioth Latour
  * @datetime 5/14/2021 4:31 PM
@@ -20,7 +22,7 @@ public class MessageSourceConfiguration {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:i18n/messages");
 		messageSource.setDefaultEncoding("UTF-8");
-		messageSource.setDefaultLocale(Locale.US);
+		messageSource.setDefaultLocale(DEFAULT_LOCALE);
 		return messageSource;
 	}
 	

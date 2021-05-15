@@ -1,5 +1,9 @@
 package com.latour.corporative.country.api;
 
+import com.latour.corporative.country.util.LocaleUtil;
+
+import java.util.Locale;
+
 /**
  * @author Alioth Latour
  * @datetime 5/7/2021 12:35 PM
@@ -10,14 +14,22 @@ public final class ApiValues {
 	private ApiValues() {
 	}
 	
+	public static class Headers {
+		private Headers() {
+		}
+		
+		public static final String ACCEPT_LANGUAGE = "Accept-Language";
+		public static final String CONTENT_LANGUAGE = "Content-Language";
+		
+	}
+	
 	public static class Params {
 		
 		private Params() {
 		}
 		
-		public static final String LOCALE = "locale";
-		
-		public static final String[] ALLOWED_LOCALES = { "en-US", "pt-BR", "es-ES" };
+		public static final Locale DEFAULT_LOCALE = Locale.US;
+		public static final Locale[] ALLOWED_LOCALES = { Locale.US, LocaleUtil.of("pt","BR") , LocaleUtil.of("es","ES")};
 		
 	}
 	
