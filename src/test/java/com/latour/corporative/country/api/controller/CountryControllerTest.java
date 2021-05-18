@@ -46,7 +46,7 @@ class CountryControllerTest {
 	void createCountryTest() throws Exception {
 		
 		final CapturingMatcher<String> capturingMatcher = new CapturingMatcher();
-		mockMvc.perform(post("/api/v1/corporative/countries").contentType(APPLICATION_JSON)
+		mockMvc.perform(post("/v1/corporative/countries").contentType(APPLICATION_JSON)
 		                                                     .content("{\n" +
 		                                                              "    \"code\": \"+1\",\n" +
 		                                                              "    \"simpleName\": \"United States\",\n" +
@@ -67,7 +67,7 @@ class CountryControllerTest {
 	@Order(2)
 	void listCountriesTest() throws Exception {
 		
-		mockMvc.perform(get("/api/v1/corporative/countries").contentType(APPLICATION_JSON))
+		mockMvc.perform(get("/v1/corporative/countries").contentType(APPLICATION_JSON))
 		       .andExpect(status().isOk())
 		       .andExpect(jsonPath("$.data.[*]", hasSize(1)))
 		
@@ -93,7 +93,7 @@ class CountryControllerTest {
 	@Test
 	@Order(3)
 	void getCountryByUuidTest() throws Exception {
-		mockMvc.perform(get("/api/v1/corporative/countries/" + this.UUID.get()).contentType(APPLICATION_JSON))
+		mockMvc.perform(get("/v1/corporative/countries/" + this.UUID.get()).contentType(APPLICATION_JSON))
 		       .andExpect(status().isOk())
 		       .andExpect(jsonPath("$.data.uuid", is(UUID.get())))
 		       .andExpect(jsonPath("$.data.code", is("+1")))
@@ -110,7 +110,7 @@ class CountryControllerTest {
 	@Order(4)
 	void patchCountryByUuidTest() throws Exception {
 		
-		mockMvc.perform(patch("/api/v1/corporative/countries/" + this.UUID.get()).contentType(
+		mockMvc.perform(patch("/v1/corporative/countries/" + this.UUID.get()).contentType(
 				MediaType.valueOf(APPLICATION_MERGE_PATCH_JSON))
 		                                                                         .content(
 				                                                                         "{ \"flagImageUrl\": \"https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4ec7ea92-af48.svg\" }"))
@@ -130,7 +130,7 @@ class CountryControllerTest {
 	@Order(5)
 	void putCountryByUuidTest() throws Exception {
 		
-		mockMvc.perform(put("/api/v1/corporative/countries/" + this.UUID.get()).contentType(APPLICATION_JSON)
+		mockMvc.perform(put("/v1/corporative/countries/" + this.UUID.get()).contentType(APPLICATION_JSON)
 		                                                                       .content("{ " +
 		                                                                                "\"code\": \"+112\"," +
 		                                                                                "\"simpleName\": \"Thirteen Colonies\"," +
@@ -153,13 +153,13 @@ class CountryControllerTest {
 	@Order(6)
 	void getCountryEntityNotFoundDefaultLocaleTest() throws Exception {
 		
-		mockMvc.perform(get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb").contentType(APPLICATION_JSON))
+		mockMvc.perform(get("/v1/corporative/countries/3ff967f6-a9fe-11eb").contentType(APPLICATION_JSON))
 		       .andExpect(status().isNotFound())
 		       .andExpect(jsonPath("$.status", is(404)))
 		       .andExpect(jsonPath("$.timestamp", notNullValue()))
 		       .andExpect(jsonPath("$.cause", is("Not Found")))
 		       .andExpect(jsonPath("$.message", is("Entity not found for identifier 3ff967f6-a9fe-11eb")))
-		       .andExpect(jsonPath("$.path", is("/api/v1/corporative/countries/3ff967f6-a9fe-11eb")));
+		       .andExpect(jsonPath("$.path", is("/v1/corporative/countries/3ff967f6-a9fe-11eb")));
 		
 		mockServer.verify();
 	}
@@ -168,7 +168,7 @@ class CountryControllerTest {
 	@Order(7)
 	void getCountryEntityNotFoundEsESLocaleTest() throws Exception {
 		
-		mockMvc.perform(get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb")
+		mockMvc.perform(get("/v1/corporative/countries/3ff967f6-a9fe-11eb")
 				                .header("Accept-Language", "es-ES")
 		                        .contentType(APPLICATION_JSON))
 		       .andExpect(status().isNotFound())
@@ -178,7 +178,7 @@ class CountryControllerTest {
 		       .andExpect(jsonPath("$.timestamp", notNullValue()))
 		       .andExpect(jsonPath("$.cause", is("Not Found")))
 		       .andExpect(jsonPath("$.message", is("Entidad no encontrada para el identificador 3ff967f6-a9fe-11eb")))
-		       .andExpect(jsonPath("$.path", is("/api/v1/corporative/countries/3ff967f6-a9fe-11eb")));
+		       .andExpect(jsonPath("$.path", is("/v1/corporative/countries/3ff967f6-a9fe-11eb")));
 		
 		mockServer.verify();
 	}
@@ -187,7 +187,7 @@ class CountryControllerTest {
 	@Order(8)
 	void getCountryEntityNotFoundCkCKLocaleTest() throws Exception {
 		
-		mockMvc.perform(get("/api/v1/corporative/countries/3ff967f6-a9fe-11eb")
+		mockMvc.perform(get("/v1/corporative/countries/3ff967f6-a9fe-11eb")
 				                .header("Accept-Language", "ck-CK")
 		                        .contentType(APPLICATION_JSON))
 		       .andExpect(status().isNotFound())
@@ -197,7 +197,7 @@ class CountryControllerTest {
 		       .andExpect(jsonPath("$.timestamp", notNullValue()))
 		       .andExpect(jsonPath("$.cause", is("Not Found")))
 		       .andExpect(jsonPath("$.message", is("Entity not found for identifier 3ff967f6-a9fe-11eb")))
-		       .andExpect(jsonPath("$.path", is("/api/v1/corporative/countries/3ff967f6-a9fe-11eb")));
+		       .andExpect(jsonPath("$.path", is("/v1/corporative/countries/3ff967f6-a9fe-11eb")));
 		
 		mockServer.verify();
 	}
@@ -206,7 +206,7 @@ class CountryControllerTest {
 	@Order(9)
 	void deleteCountryEntityTest() throws Exception {
 		
-		mockMvc.perform(delete("/api/v1/corporative/countries/" + this.UUID.get()).contentType(APPLICATION_JSON))
+		mockMvc.perform(delete("/v1/corporative/countries/" + this.UUID.get()).contentType(APPLICATION_JSON))
 		       .andExpect(status().isNoContent());
 		
 		mockServer.verify();
