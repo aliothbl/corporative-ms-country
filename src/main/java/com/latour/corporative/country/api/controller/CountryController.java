@@ -25,7 +25,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  */
 
 @RestController
-@RequestMapping("/api/v1/corporative/countries")
+@RequestMapping("/v1/corporative/countries")
 @Api(tags = { "Corporative Country" })
 public class CountryController {
 	
