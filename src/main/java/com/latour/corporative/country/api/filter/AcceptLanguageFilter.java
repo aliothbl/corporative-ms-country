@@ -17,7 +17,7 @@ import static com.latour.corporative.country.api.ApiValues.Headers.CONTENT_LANGU
  * @datetime 5/15/2021 5:48 AM
  */
 
-@WebFilter("/api/v1/corporative/countries/*")
+@WebFilter("/v1/corporative/countries/*")
 public class AcceptLanguageFilter implements Filter {
 	
 	@Override
