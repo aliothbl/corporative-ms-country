@@ -2,7 +2,10 @@ package com.latour.corporative.country.model;
 
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.Constraint;
 
 /**
  * @author Alioth Latour
@@ -15,6 +18,7 @@ public class Country {
 	@Id
 	@BsonProperty(value = "_id")
 	private String uuid;
+	@Indexed
 	private String code;
 	private String simpleName;
 	private String fullName;

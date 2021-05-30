@@ -54,7 +54,6 @@ public class CountryService {
 		Country country = ObjectMapperUtil.mergePatch(jsonMergePatch, getCountry(uuid), Country.class);
 		/* Keeping the same uuid in the document */
 		country.setUuid(uuid);
-		repository.save(country);
 		return WrapperResponse.of(mapper.from(repository.save(country)));
 	}
 	
