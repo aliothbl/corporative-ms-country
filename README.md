@@ -1,35 +1,35 @@
 # corporative-ms-country
 
 ## Introduction
-Simple microservice created with Spring Boot and MondoDB. It is for consulting country data such as name, calling code and flag icon.
+Corporative Country is a simple microservice demo application created with Spring Boot and MondoDB for consulting country data such as name, calling code and flag icon.
 
 This project supports a case study that aims to show the difficulty of developing a microservice when Spring Boot is chosen for its construction.
 
 [![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=shield)](https://app.circleci.com/pipelines/github/aliothbl/corporative-ms-country?branch=main)
  
 ## Prerequisites
- * Apache Maven 3.6.2 or later
- * JDK 8 or later
+ * Apache Maven 3.6.2 or higher 
+ * JDK 8 or higher
  * Git GUI for GitHub Client
  * MongoDb 
 
-## Instalation  
+## Installation  
 
 ### Database
 
- You can use [MongoDB Community Server](https://www.mongodb.com/try/download/community) or [MongoDb Atlas (Cloud)](https://www.mongodb.com/cloud/atlas). I use MongoDb Atlas.
- You can create the database user as 'app-user-ms-country' and the database name as 'corporative'.
+ You can use [MongoDB Community Server](https://www.mongodb.com/try/download/community) or [MongoDb Atlas (Cloud)](https://www.mongodb.com/cloud/atlas). I used MongoDb Atlas to create the database. 
+ You can create the user database as 'app-user-ms-country' and the database name as 'corporative' and you won’t have to change these properties on the application.properties file.
  
 ### Project
 
- 1 - Clone the repo, I use [GUI Client](https://git-scm.com/) for that
+ Clone the repo, I used [GUI Client](https://git-scm.com/)
  ```sh
     git clone https://github.com/aliothbl/corporative-ms-country.git
  ```
 
 ### Configuration
 
-In the file 'application.properties' settings your MongoDb.
+In the file 'application.properties' configure your MongoDb.
  ```sh      
       corporative.ms.country.app-db-user=${APP_DB_USER:<user>}
       corporative.ms.country.app-db-password=${APP_DB_PASSWORD:<passoword>}
@@ -46,11 +46,11 @@ If you want start the microservice in specific port, please change it.
 
 ### Start up 
 
- 1 - Go to the destiny folder
+ 1 - Go to the destination folder
   ```sh
       cd /path/to/root-project-folder
    ```
- 2 - Execute maven command
+ 2 - Execute the maven command
  ```sh
      mvn clean install
   ```
@@ -58,14 +58,40 @@ If you want start the microservice in specific port, please change it.
  ```sh
      java -jar target/ms-country.jar
   ```
-### Checking the microservice health    
+### Checking the health of the microservice     
 
 Access the [Spring Boot Actuator](http://localhost:8080/actuator/health)   
 
+The response must be:
+ ```json
+  {
+     "status":"UP",
+     "components":{
+        "diskSpace":{
+           "status":"UP",
+           "details":{
+              "total":402672611328,
+              "free":278237704192,
+              "threshold":10485760,
+              "exists":true
+           }
+        },
+        "mongo":{
+           "status":"UP",
+           "details":{
+              "version":"4.4.6"
+           }
+        },
+        "ping":{
+           "status":"UP"
+        }
+     }
+  }
+```
 ##  Using the microservice
 
-Open you browse in 'http://localhost:8080/swagger-ui.html#' or [click here](http://localhost:8080/swagger-ui.html#).<br>
-Using the resource 'POST /v1/corporative/countries' add your first country to the database with the data below:
+Open you browser in 'http://localhost:8080/swagger-ui.html#' or [click here](http://localhost:8080/swagger-ui.html#).<br>
+Using the resource 'POST /v1/corporative/countries' to add your first country to the database with the data below:
  ```json
      {
          "code": "+55",
@@ -100,7 +126,7 @@ And the response headers must be:
  vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers
 ```
 
-## Resources
+## Links
 [GUI Client](https://git-scm.com/) <br>
 [Apache Maven](https://maven.apache.org/index.html) <br>
 [MongoDb Atlas](https://www.mongodb.com/cloud/atlas) <br>
