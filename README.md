@@ -126,7 +126,8 @@ And the response headers must be:
  vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers
 ```
 
-## Links
+## Useful links
+[How do I install Java](https://www.java.com/en/download/help/download_options.html) <br>
+[Installing Apache Maven](https://maven.apache.org/install.html) <br>
 [GUI Client](https://git-scm.com/) <br>
-[Apache Maven](https://maven.apache.org/index.html) <br>
-[MongoDb Atlas](https://www.mongodb.com/cloud/atlas) <br>
+[Install MongoDB](https://docs.mongodb.com/manual/installation/) <br>
