@@ -17,7 +17,7 @@ This project supports a case study that aims to show the difficulty of developin
 
 ### Database
 
- You can use a [MongoDB Community Server](https://www.mongodb.com/try/download/community) or [MongoDb Atlas (Cloud)](https://www.mongodb.com/cloud/atlas), I use MongoDb Atlas.
+ You can use [MongoDB Community Server](https://www.mongodb.com/try/download/community) or [MongoDb Atlas (Cloud)](https://www.mongodb.com/cloud/atlas). I use MongoDb Atlas.
  You can create the database user as 'app-user-ms-country' and the database name as 'corporative'.
  
 ### Project
@@ -30,7 +30,6 @@ This project supports a case study that aims to show the difficulty of developin
 ### Configuration
 
 In the file 'application.properties' settings your MongoDb.
-
  ```sh      
       corporative.ms.country.app-db-user=${APP_DB_USER:<user>}
       corporative.ms.country.app-db-password=${APP_DB_PASSWORD:<passoword>}
@@ -40,7 +39,7 @@ In the file 'application.properties' settings your MongoDb.
 If you want start the microservice in specific port, please change it.
  
  ```sh  
-    server.port=@{SERVER_PORT:8080}
+    server.port=${SERVER_PORT:8080}
  ```
 
 ## Run 
@@ -105,6 +104,3 @@ And the response headers must be:
 [GUI Client](https://git-scm.com/) <br>
 [Apache Maven](https://maven.apache.org/index.html) <br>
 [MongoDb Atlas](https://www.mongodb.com/cloud/atlas) <br>
-
-### Me
-[![Linkedin](https://i.stack.imgur.com/gVE0j.png) LinkedIn](https://www.linkedin.com/in/aliothbl/)
