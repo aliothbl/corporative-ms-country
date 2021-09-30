@@ -22,7 +22,7 @@ public class LocaleUtil {
 	}
 	
 	public static String getAllowedLanguagesTags(){
-		return Arrays.stream(ALLOWED_LOCALES).map( locale -> locale.toLanguageTag())
+		return Arrays.stream(ALLOWED_LOCALES).map( Locale::toLanguageTag)
 		             .collect(Collectors.joining(LANGUAGE_TAG_DELIMITER));
 	}
 	
