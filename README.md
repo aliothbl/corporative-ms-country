@@ -29,7 +29,7 @@ This project supports a case study that aims to show the difficulty of developin
 
 ### Configuration
 
-In the file 'application.properties' configure your MongoDb.
+In the file 'application.properties' configure the MongoDb.
  ```sh      
       corporative.ms.country.app-db-user=${APP_DB_USER:<user>}
       corporative.ms.country.app-db-password=${APP_DB_PASSWORD:<passoword>}
