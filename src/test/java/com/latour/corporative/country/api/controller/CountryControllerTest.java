@@ -52,11 +52,13 @@ class CountryControllerTest {
 		                                                              "    \"simpleName\": \"United States\",\n" +
 		                                                              "    \"fullName\": \"United States of America\",\n" +
 		                                                              "    \"flagImageUrl\": \"https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg\"\n" +
-		                                                              "}")).andExpect(status().isCreated()).andExpect(
-				jsonPath("$.data.uuid", is(capturingMatcher))).andExpect(jsonPath("$.data.code", is("+1"))).andExpect(
-				jsonPath("$.data.simpleName", is("United States"))).andExpect(
-				jsonPath("$.data.fullName", is("United States of America"))).andExpect(jsonPath("$.data.flagImageUrl",
-		                                                                                        is("https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg")));
+		                                                              "}"))
+		       .andExpect(status().isCreated())
+		       .andExpect(jsonPath("$.data.uuid", is(capturingMatcher)))
+		       .andExpect(jsonPath("$.data.code", is("+1")))
+		       .andExpect(jsonPath("$.data.simpleName", is("United States")))
+		       .andExpect(jsonPath("$.data.fullName", is("United States of America")))
+		       .andExpect(jsonPath("$.data.flagImageUrl", is("https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg")));
 		
 		UUID.set(capturingMatcher.getLastValue());
 		mockServer.verify();
@@ -83,8 +85,7 @@ class CountryControllerTest {
 		       .andExpect(jsonPath("$.data.[0].code", is("+1")))
 		       .andExpect(jsonPath("$.data.[0].simpleName", is("United States")))
 		       .andExpect(jsonPath("$.data.[0].fullName", is("United States of America")))
-		       .andExpect(jsonPath("$.data.[0].flagImageUrl",
-		                           is("https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg")));
+		       .andExpect(jsonPath("$.data.[0].flagImageUrl",is("https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg")));
 		
 		mockServer.verify();
 		
@@ -99,8 +100,7 @@ class CountryControllerTest {
 		       .andExpect(jsonPath("$.data.code", is("+1")))
 		       .andExpect(jsonPath("$.data.simpleName", is("United States")))
 		       .andExpect(jsonPath("$.data.fullName", is("United States of America")))
-		       .andExpect(jsonPath("$.data.flagImageUrl",
-		                           is("https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg")));
+		       .andExpect(jsonPath("$.data.flagImageUrl", is("https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4x3.svg")));
 		
 		mockServer.verify();
 		
@@ -119,8 +119,7 @@ class CountryControllerTest {
 		       .andExpect(jsonPath("$.data.code", is("+1")))
 		       .andExpect(jsonPath("$.data.simpleName", is("United States")))
 		       .andExpect(jsonPath("$.data.fullName", is("United States of America")))
-		       .andExpect(jsonPath("$.data.flagImageUrl",
-		                           is("https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4ec7ea92-af48.svg")));
+		       .andExpect(jsonPath("$.data.flagImageUrl", is("https://s3.amazonaws.com/media.latourtec.com/img/us-flag-4ec7ea92-af48.svg")));
 		
 		mockServer.verify();
 		
@@ -142,8 +141,7 @@ class CountryControllerTest {
 		       .andExpect(jsonPath("$.data.code", is("+112")))
 		       .andExpect(jsonPath("$.data.simpleName", is("Thirteen Colonies")))
 		       .andExpect(jsonPath("$.data.fullName", is("Thirteen British Colonies")))
-		       .andExpect(jsonPath("$.data.flagImageUrl",
-		                           is("https://s3.amazonaws.com/media.latourtec.com/img/tc-flag-4x2.svg")));
+		       .andExpect(jsonPath("$.data.flagImageUrl",is("https://s3.amazonaws.com/media.latourtec.com/img/tc-flag-4x2.svg")));
 		
 		mockServer.verify();
 		
