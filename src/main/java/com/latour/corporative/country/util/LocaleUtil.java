@@ -22,8 +22,8 @@ public class LocaleUtil {
 	}
 	
 	public static String getAllowedLanguagesTags(){
-		return Arrays.stream(ALLOWED_LOCALES).map( locale -> locale.toLanguageTag()).collect(
-				Collectors.joining(LANGUAGE_TAG_DELIMITER));
+		return Arrays.stream(ALLOWED_LOCALES).map( locale -> locale.toLanguageTag())
+		             .collect(Collectors.joining(LANGUAGE_TAG_DELIMITER));
 	}
 	
 }

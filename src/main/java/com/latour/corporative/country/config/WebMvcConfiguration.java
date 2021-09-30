@@ -36,22 +36,4 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		return bean;
 	}
 	
-	/*@Bean
-	public LocaleResolver localeResolver() {
-		return new CookieLocaleResolver();
-	}
-	
-	@Bean
-	public LocaleChangeInterceptor localeInterceptor() {
-		LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
-		localeInterceptor.setParamName("locale");
-		return localeInterceptor;
-	}
-	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(localeInterceptor());
-	}
-	 */
-	
 }
